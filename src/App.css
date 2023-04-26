@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+}
+
+.form-layout {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  height: 500px;
+  background-color: #e1e7fb ;/* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom, #d8e8f6, #ffffff);
+}
