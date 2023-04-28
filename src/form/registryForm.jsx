@@ -1,20 +1,41 @@
-import { ButtonGroup } from '@mui/material';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import React, { useState } from 'react';
-import './registryForm.css';
 import Choice from '../choice/choice';
+import './registryForm.css';
 
 export default function RegistryForm () {
+  const [phoneNumber, setPhoneNumber] = useState();
   const [registrationTexts, setRegistrationTexts] = useState(null);
   const [registrationCalls, setRegistrationCalls] = useState(null);
   const [electionTexts, setElectionTexts] = useState(null);
   const [electionCalls, setElectionCalls] = useState(null);
 
+  function handlePhoneNumberChange (newValue) {
+    setPhoneNumber(newValue);
+  }
+
+  function handleSubmission() {
+    if(validatePhoneNumber(phoneNumber)) {
+      console.log('Success!');
+      return;
+    }
+    console.log('falure :(');
+  }
+
+  function validatePhoneNumber(value) {
+    return matchIsValidTel(value);
+  }
 
   return(
     <div className='form-list'>
-      <TextField placeholder='phone number' className='form-item'/>
+      <MuiTelInput 
+        value={phoneNumber} 
+        onChange={handlePhoneNumberChange}
+        className='form-item'
+        forceCallingCode='true'
+        defaultCountry='US'
+      />
       <div className='form-item'>
         upcoming registration deadlines
         <Choice medium='texts' value={registrationTexts} setValue={setRegistrationTexts} />
@@ -29,7 +50,7 @@ export default function RegistryForm () {
       <div className='form-item'>
         <Choice medium='phone calls' value={electionCalls} setValue={setElectionCalls} />
       </div>
-      <Button variant="contained" size="large">submit</Button>
+      <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
     </div>
   )
 }
