@@ -1,7 +1,9 @@
 import Button from '@mui/material/Button';
+import axios from "axios";
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import React, { useState } from 'react';
 import Choice from '../choice/choice';
+import { saveRecord } from '../services/apiService';
 import './registryForm.css';
 
 export default function RegistryForm () {
@@ -10,13 +12,12 @@ export default function RegistryForm () {
   const [registrationCalls, setRegistrationCalls] = useState();
   const [electionTexts, setElectionTexts] = useState();
   const [electionCalls, setElectionCalls] = useState();
-  const [data, setData] = useState();
 
   React.useEffect(() => {
-    console.log('requesting data');
-    fetch("http://localhost:3001/api")
-      .then((result) => result.json())
-      .then((data) => {console.log(data); setData(data.message)});
+    /*
+    axios()
+      .then((response) => {setData(response.data.message)});
+    */
   }, []);
 
   function handlePhoneNumberChange (newValue) {
@@ -29,10 +30,17 @@ export default function RegistryForm () {
       return;
     } 
     if( validatePhoneNumber(phoneNumber)) {
-      console.log('Success!');
+      saveRecord(
+        JSON.stringify({
+          phoneNumber,
+          registrationTexts,
+          registrationCalls,
+          electionTexts,
+          electionCalls
+        })
+      );
       return;
     }
-    console.log('falure :(');
   }
 
   function validatePhoneNumber(value) {
@@ -63,7 +71,6 @@ export default function RegistryForm () {
         <Choice medium='phone calls' value={electionCalls} setValue={setElectionCalls} />
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
-      <p>{!data ? "Loading..." : data}</p>
     </div>
   )
 }
