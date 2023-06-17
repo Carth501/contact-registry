@@ -1,0 +1,35 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 512px;
+    padding: 20px;
+}
+
+.dashboard-item {
+    margin: 10px;
+    width: 349px;
+    text-transform: uppercase;
+    color: #1976d2;
+}
+
+.api-input-field {
+    margin-right: 4px; 
+}
+
+.choice-button {
+    width: 175px;
+}
+
+.content-tube {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-info {
+    color: #1976d2;
+    margin: 4px;
+}

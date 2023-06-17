@@ -1,9 +1,9 @@
 import Button from '@mui/material/Button';
-import axios from "axios";
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import React, { useState } from 'react';
 import Choice from '../choice/choice';
-import { saveRecord } from '../services/apiService';
+import { saveRecord, retrieveRecord } from '../services/apiService';
+import { useParams } from 'react-router-dom'
 import './registryForm.css';
 
 export default function RegistryForm () {
@@ -12,13 +12,17 @@ export default function RegistryForm () {
   const [registrationCalls, setRegistrationCalls] = useState();
   const [electionTexts, setElectionTexts] = useState();
   const [electionCalls, setElectionCalls] = useState();
+  const { id } = useParams();
 
   React.useEffect(() => {
-    /*
-    axios()
-      .then((response) => {setData(response.data.message)});
-    */
-  }, []);
+    if(id){
+      getRecord(id);
+    }
+  }, [id]);
+
+  function getRecord (uuid) {
+    retrieveRecord(uuid); // need to get the record back somehow
+  }
 
   function handlePhoneNumberChange (newValue) {
     setPhoneNumber(newValue);

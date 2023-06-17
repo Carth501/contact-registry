@@ -1,13 +1,8 @@
-
-export const apiService = async () => {
-
-}
+const serverhost = window.location.hostname;
+const serverport = 3001;
 
 export const saveRecord = async (record) => {
-    const serverhost = window.location.hostname;
-    const serverport = 3001;
     const endpoint = "/api/contact";
-
     console.log(record);
     await fetch(
         `http://${serverhost}:${serverport}${endpoint}`,
@@ -17,6 +12,20 @@ export const saveRecord = async (record) => {
                 "Content-Type": "application/json"
             },
             body: record
+        }
+    )
+}
+
+export const retrieveRecord = async (uuid) => {
+    const endpoint = "/api/retrieve";
+    await fetch(
+        `http://${serverhost}:${serverport}${endpoint}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {uuid}
         }
     )
 }
