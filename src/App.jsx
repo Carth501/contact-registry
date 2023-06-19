@@ -1,6 +1,6 @@
 import './App.css';
+import Client from './client/client';
 import RegistryForm from './form/registryForm';
-import Dashboard from './dashboard/dashboard';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,11 +21,12 @@ function App() {
             element={<RegistryForm/>}
           />
           <Route
-            path="/dashboard"
-            element={<Dashboard/>}
+            path="/client"
+            element={<Client/>}
           />
         </Routes>
       </Router>
+      <div className='contact-info'>Contact me: carth501@gmail.com</div>
     </div>
   );
 }
