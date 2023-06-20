@@ -5,6 +5,7 @@ import { saveClient } from '../services/apiService';
 
 export default function Client () {
     const [name, setName] = useState("");
+    const [apikey, setApikey] = useState("");
 
     function handleNameChange (newValue) {
       setName(newValue);
@@ -13,13 +14,22 @@ export default function Client () {
     function handleRequestAPI () {
         console.log('api key requested for ' + name);
         if(name) {
-          saveClient(
-            JSON.stringify({
-              name
-            })
-          );
-          return;
+            const apikeyPromise = saveClient(
+                JSON.stringify({
+                    name
+                })
+            )
+            apikeyPromise.then((response) => {
+                return response.json();
+            }).then((jsonObject) => {
+                setApikey(jsonObject.apikey);
+            });
+            return;
         }
+    }
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(apikey);
     }
 
     return(
@@ -38,6 +48,18 @@ export default function Client () {
                 >
                     Request API key
                 </Button>
+            </div>
+            <div className='apikey'>
+                {!!apikey &&
+                    <>
+                        <div>
+                            API key: {apikey}
+                        </div>
+                        <Button variant='outlined' onClick={() => {copyToClipboard()}}>
+                            Copy
+                        </Button>
+                    </>
+                }
             </div>
         </div>
     );

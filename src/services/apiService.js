@@ -32,8 +32,7 @@ export const retrieveRecord = async (uuid) => {
 
 export const saveClient = async (record) => {
     const endpoint = "/api/newCustomer";
-    console.log(record);
-    await fetch(
+    return await fetch(
         `http://${serverhost}:${serverport}${endpoint}`,
         {
             method: "POST",
