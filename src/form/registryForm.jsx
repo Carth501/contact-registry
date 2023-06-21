@@ -16,12 +16,19 @@ export default function RegistryForm () {
 
   React.useEffect(() => {
     if(id){
+      console.log('id found! id = ' + id);
       getRecord(id);
     }
   }, [id]);
 
   function getRecord (uuid) {
-    retrieveRecord(uuid); // need to get the record back somehow
+    const phoneRecord = retrieveRecord(JSON.stringify({uuid}));
+    phoneRecord.then((response) => {
+      return response.json();
+    }).then((jsonObject) => {
+      console.log('phone lookup complete: ' + jsonObject.phone);
+      setPhoneNumber(jsonObject.phone);
+    });
   }
 
   function handlePhoneNumberChange (newValue) {
@@ -34,6 +41,7 @@ export default function RegistryForm () {
       return;
     } 
     if( validatePhoneNumber(phoneNumber)) {
+      console.log('submitting record');
       saveRecord(
         JSON.stringify({
           phoneNumber,
@@ -44,6 +52,8 @@ export default function RegistryForm () {
         })
       );
       return;
+    } else {
+      console.log('invalid phone number');
     }
   }
 

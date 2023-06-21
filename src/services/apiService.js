@@ -18,14 +18,15 @@ export const saveRecord = async (record) => {
 
 export const retrieveRecord = async (uuid) => {
     const endpoint = "/api/retrieve";
-    await fetch(
+    console.log(uuid);
+    return await fetch(
         `http://${serverhost}:${serverport}${endpoint}`,
         {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: {uuid}
+            body: uuid
         }
     )
 }
