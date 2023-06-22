@@ -4,7 +4,7 @@ const serverport = 3001;
 export const saveRecord = async (record) => {
     const endpoint = "/api/contact";
     console.log(record);
-    await fetch(
+    return await fetch(
         `http://${serverhost}:${serverport}${endpoint}`,
         {
             method: "POST",

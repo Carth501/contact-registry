@@ -5,8 +5,12 @@
     max-width: 512px;
 }
 
+.form-category {
+    margin-top: 12px;
+}
+
 .form-item {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     width: 349px;
     text-transform: uppercase;
     color: #1976d2;

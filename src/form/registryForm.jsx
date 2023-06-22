@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import Snackbar from '@mui/material/Snackbar';
 import React, { useState } from 'react';
 import Choice from '../choice/choice';
 import { saveRecord, retrieveRecord } from '../services/apiService';
@@ -12,6 +13,8 @@ export default function RegistryForm () {
   const [registrationCalls, setRegistrationCalls] = useState();
   const [electionTexts, setElectionTexts] = useState();
   const [electionCalls, setElectionCalls] = useState();
+  const [messageState, setMessageState] = useState();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const { id } = useParams();
 
   React.useEffect(() => {
@@ -42,7 +45,7 @@ export default function RegistryForm () {
     } 
     if( validatePhoneNumber(phoneNumber)) {
       console.log('submitting record');
-      saveRecord(
+      const recordSaveResponse = saveRecord(
         JSON.stringify({
           phoneNumber,
           registrationTexts,
@@ -51,6 +54,13 @@ export default function RegistryForm () {
           electionCalls
         })
       );
+      recordSaveResponse.then((response) => {
+        if(response.status === 200) {
+          handleSnackbarOpen("Success!");
+        } else {
+          handleSnackbarOpen("Oops, something went wrong. " + response.status);
+        }
+      });
       return;
     } else {
       console.log('invalid phone number');
@@ -59,6 +69,15 @@ export default function RegistryForm () {
 
   function validatePhoneNumber(value) {
     return matchIsValidTel(value);
+  }
+
+  function handleSnackbarOpen(message) {
+    setMessageState(message);
+    setOpenSnackbar(true);
+  }
+
+  function handleSnackbarClose() {
+    setOpenSnackbar(false);
   }
 
   return(
@@ -70,21 +89,31 @@ export default function RegistryForm () {
         forceCallingCode='true'
         defaultCountry='US'
       />
-      <div className='form-item'>
-        upcoming registration deadlines
-        <Choice medium='texts' value={registrationTexts} setValue={setRegistrationTexts} />
+      <div className='form-category'>
+        <div className='form-item'>
+          upcoming registration deadlines
+          <Choice medium='texts' value={registrationTexts} setValue={setRegistrationTexts} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='phone calls' value={registrationCalls} setValue={setRegistrationCalls} />
+        </div>
       </div>
-      <div className='form-item'>
-        <Choice medium='phone calls' value={registrationCalls} setValue={setRegistrationCalls} />
-      </div>
-      <div className='form-item'>
-        upcoming elections
-        <Choice medium='texts' value={electionTexts} setValue={setElectionTexts} />
-      </div>
-      <div className='form-item'>
-        <Choice medium='phone calls' value={electionCalls} setValue={setElectionCalls} />
+      <div className='form-category'>
+        <div className='form-item'>
+          upcoming elections
+          <Choice medium='texts' value={electionTexts} setValue={setElectionTexts} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='phone calls' value={electionCalls} setValue={setElectionCalls} />
+        </div>
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+        message={messageState}
+      />
     </div>
   )
 }
