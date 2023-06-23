@@ -1,18 +1,27 @@
-import Button from '@mui/material/Button';
-import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import { Button, TextField  } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Choice from '../choice/choice';
-import { saveRecord, retrieveRecord } from '../services/apiService';
-import { useParams } from 'react-router-dom'
+import { retrieveRecord, saveRecord } from '../services/apiService';
 import './registryForm.css';
 
 export default function RegistryForm () {
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState();
+  const [address, setAddress] = useState('');
+  const [zip, setZip] = useState('');
   const [registrationTexts, setRegistrationTexts] = useState();
   const [registrationCalls, setRegistrationCalls] = useState();
+  const [registrationEmail, setRegistrationEmail] = useState();
+  const [registrationMail, setRegistrationMail] = useState();
   const [electionTexts, setElectionTexts] = useState();
   const [electionCalls, setElectionCalls] = useState();
+  const [electionEmail, setElectionEmail] = useState();
+  const [electionMail, setElectionMail] = useState();
   const [messageState, setMessageState] = useState();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { id } = useParams();
@@ -39,17 +48,25 @@ export default function RegistryForm () {
   }
 
   function handleSubmission() {
-    if(typeof phoneNumber === 'undefined')
+    if(typeof phoneNumber === 'undefined' )
     {
       return;
     } 
-    if( validatePhoneNumber(phoneNumber)) {
+    if( validatePhoneNumber(phoneNumber) && !emailError) {
       console.log('submitting record');
       const recordSaveResponse = saveRecord(
         JSON.stringify({
+          name,
+          email,
+          address,
+          zip,
           phoneNumber,
+          registrationEmail,
+          registrationMail,
           registrationTexts,
           registrationCalls,
+          electionEmail,
+          electionMail,
           electionTexts,
           electionCalls
         })
@@ -80,31 +97,107 @@ export default function RegistryForm () {
     setOpenSnackbar(false);
   }
 
+  function handleNameChange (newValue) {
+    setName(newValue);
+  }
+
+  function handleEmailChange (newValue) {
+    setEmail(newValue);
+    let re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    if ( re.test(newValue) || newValue === '') {
+      setEmailError(false);
+    }
+    else {
+      setEmailError(true);
+    }
+  }
+
+  function handleAddressChange (newValue) {
+    setAddress(newValue);
+  }
+
+  function handleZipChange (newValue) {
+    setZip(newValue);
+  }
+
   return(
     <div className='form-list'>
+      <TextField  
+        name='name'
+        variant='outlined'
+        placeholder='Name'
+        className='name-input-field form-item'
+        value={name} 
+        onChange={(event) => {
+            handleNameChange(event.target.value);
+        }}/>
+      <TextField  
+        name='enail'
+        variant='outlined'
+        type='email'
+        placeholder='Email'
+        className='email-input-field form-item'
+        value={email} 
+        error={emailError}
+        onChange={(event) => {
+          handleEmailChange(event.target.value);
+        }}/>
+      <TextField  
+        name='address'
+        variant='outlined'
+        placeholder='Address'
+        className='address-input-field form-item'
+        value={address} 
+        multiline
+        onChange={(event) => {
+            handleAddressChange(event.target.value);
+        }}/>
+      <TextField  
+        name='zip'
+        variant='outlined'
+        placeholder='Zip Code'
+        className='zip-input-field form-item'
+        value={zip} 
+        onChange={(event) => {
+            handleZipChange(event.target.value);
+        }}/>
       <MuiTelInput 
+        name='phone'
         value={phoneNumber} 
         onChange={handlePhoneNumberChange}
+        placeholder='Phone Number'
         className='form-item'
         forceCallingCode='true'
         defaultCountry='US'
       />
       <div className='form-category'>
+        upcoming registration deadlines
         <div className='form-item'>
-          upcoming registration deadlines
-          <Choice medium='texts' value={registrationTexts} setValue={setRegistrationTexts} />
+          <Choice medium='email' value={registrationEmail} setValue={setRegistrationEmail} />
         </div>
         <div className='form-item'>
-          <Choice medium='phone calls' value={registrationCalls} setValue={setRegistrationCalls} />
+          <Choice medium='mail' value={registrationMail} setValue={setRegistrationMail} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='text' value={registrationTexts} setValue={setRegistrationTexts} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='phone call' value={registrationCalls} setValue={setRegistrationCalls} />
         </div>
       </div>
       <div className='form-category'>
+        upcoming elections
         <div className='form-item'>
-          upcoming elections
-          <Choice medium='texts' value={electionTexts} setValue={setElectionTexts} />
+          <Choice medium='email' value={electionEmail} setValue={setElectionEmail} />
         </div>
         <div className='form-item'>
-          <Choice medium='phone calls' value={electionCalls} setValue={setElectionCalls} />
+          <Choice medium='mail' value={electionMail} setValue={setElectionMail} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='text' value={electionTexts} setValue={setElectionTexts} />
+        </div>
+        <div className='form-item'>
+          <Choice medium='phone call' value={electionCalls} setValue={setElectionCalls} />
         </div>
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>

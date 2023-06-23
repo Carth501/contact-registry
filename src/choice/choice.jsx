@@ -11,10 +11,10 @@ export default function Choice ({medium, value, setValue}) {
     return (
         <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button onClick={() => {handleClick(true)}} className='choice-button'>
-                I want to receive {medium}. {value && " ✔"}
+                I want to receive {medium} reminders. {value && " ✔"}
             </Button>
             <Button onClick={() => {handleClick(false)}} className='choice-button'>
-                I do not want to receive  {medium}. {value === false && " ✔"}
+                I do not want to receive {medium} reminders. {value === false && " ✔"}
             </Button>
         </ButtonGroup>
     )
