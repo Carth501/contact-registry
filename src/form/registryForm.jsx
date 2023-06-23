@@ -28,7 +28,6 @@ export default function RegistryForm () {
 
   React.useEffect(() => {
     if(id){
-      console.log('id found! id = ' + id);
       getRecord(id);
     }
   }, [id]);
@@ -38,7 +37,6 @@ export default function RegistryForm () {
     phoneRecord.then((response) => {
       return response.json();
     }).then((jsonObject) => {
-      console.log('phone lookup complete: ' + jsonObject.phone);
       setPhoneNumber(jsonObject.phone);
     });
   }
@@ -53,7 +51,6 @@ export default function RegistryForm () {
       return;
     } 
     if( validatePhoneNumber(phoneNumber) && !emailError) {
-      console.log('submitting record');
       const recordSaveResponse = saveRecord(
         JSON.stringify({
           name,
