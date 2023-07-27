@@ -1,11 +1,11 @@
 const serverhost = window.location.hostname;
-const serverport = 3001;
 
 export const saveRecord = async (record) => {
-    const endpoint = "/api/create_record3";
+    const endpoint = "api/create_record";
     console.log(record);
     return await fetch(
-        `http://${serverhost}:${serverport}${endpoint}`,
+        // window.location.protocol + '//' + window.location.host + `/${endpoint}`,
+        getServerURL() + `${endpoint}`,
         {
             method: "POST",
             headers: {
@@ -17,10 +17,10 @@ export const saveRecord = async (record) => {
 }
 
 export const retrieveRecord = async (uuid) => {
-    const endpoint = "/api/retrieve";
+    const endpoint = "api/retrieve";
     console.log(uuid);
     return await fetch(
-        `http://${serverhost}:${serverport}${endpoint}`,
+        getServerURL() + `${endpoint}`,
         {
             method: "POST",
             headers: {
@@ -34,7 +34,7 @@ export const retrieveRecord = async (uuid) => {
 export const saveClient = async (record) => {
     const endpoint = "/api/newCustomer";
     return await fetch(
-        `http://${serverhost}:${serverport}${endpoint}`,
+        getServerURL() + `${endpoint}`,
         {
             method: "POST",
             headers: {
@@ -43,4 +43,8 @@ export const saveClient = async (record) => {
             body: record
         }
     )
+}
+
+const getServerURL = () => {
+    return `https://${serverhost}/`;
 }
