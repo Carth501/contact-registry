@@ -34,3 +34,12 @@
 .choice-button {
     width: 175px;
 }
+
+.header {
+    width: 350px;
+}
+
+.header-items {
+    text-align: center;
+    word-wrap: break-word;
+}

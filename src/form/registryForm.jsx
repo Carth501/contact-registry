@@ -141,8 +141,11 @@ export default function RegistryForm() {
 
   return (
     <div className='form-layout'>
-      <div>
-        Provide the information you wish, and controls will appear.
+      <div className='header'>
+        <h1 className='header-items'>Contact Registry</h1>
+        <h4 className='header-items'>
+          Provide the information you wish, and controls will appear. Skip any fields or questions you don't want to answer.
+        </h4>
       </div>
       <div className='form-list'>
         <div className='category-card'>
@@ -179,29 +182,33 @@ export default function RegistryForm() {
           {name && address && zip && addressQuestions()}
         </div>
         <div className='category-card'>
-          <TextField
-            name='email'
-            variant='outlined'
-            type='email'
-            placeholder='Email'
-            className='email-input-field form-item'
-            value={email}
-            error={emailError}
-            onChange={(event) => {
-              handleEmailChange(event.target.value);
-            }} />
+          <div className='category-fields'>
+            <TextField
+              name='email'
+              variant='outlined'
+              type='email'
+              placeholder='Email'
+              className='email-input-field form-item'
+              value={email}
+              error={emailError}
+              onChange={(event) => {
+                handleEmailChange(event.target.value);
+              }} />
+          </div>
           {email && emailQuestions()}
         </div>
         <div className='category-card'>
-          <MuiTelInput
-            name='phone'
-            value={phoneNumber}
-            onChange={handlePhoneNumberChange}
-            placeholder='Phone Number'
-            className='form-item'
-            forceCallingCode='true'
-            defaultCountry='US'
-          />
+          <div className='category-fields'>
+            <MuiTelInput
+              name='phone'
+              value={phoneNumber}
+              onChange={handlePhoneNumberChange}
+              placeholder='Phone Number'
+              className='form-item'
+              forceCallingCode='true'
+              defaultCountry='US'
+            />
+          </div>
           {phoneNumber && phoneQuestions()}
         </div>
       </div>
