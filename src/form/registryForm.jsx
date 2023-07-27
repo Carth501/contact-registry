@@ -1,4 +1,4 @@
-import { Button, TextField  } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import React, { useState } from 'react';
@@ -7,7 +7,7 @@ import Choice from '../choice/choice';
 import { retrieveRecord, saveRecord } from '../services/apiService';
 import './registryForm.css';
 
-export default function RegistryForm () {
+export default function RegistryForm() {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -27,13 +27,13 @@ export default function RegistryForm () {
   const { id } = useParams();
 
   React.useEffect(() => {
-    if(id){
+    if (id) {
       getRecord(id);
     }
   }, [id]);
 
-  function getRecord (uuid) {
-    const phoneRecord = retrieveRecord(JSON.stringify({uuid}));
+  function getRecord(uuid) {
+    const phoneRecord = retrieveRecord(JSON.stringify({ uuid }));
     phoneRecord.then((response) => {
       return response.json();
     }).then((jsonObject) => {
@@ -41,16 +41,15 @@ export default function RegistryForm () {
     });
   }
 
-  function handlePhoneNumberChange (newValue) {
+  function handlePhoneNumberChange(newValue) {
     setPhoneNumber(newValue);
   }
 
   function handleSubmission() {
-    if(typeof phoneNumber === 'undefined' )
-    {
+    if (typeof phoneNumber === 'undefined') {
       return;
-    } 
-    if( validatePhoneNumber(phoneNumber) && !emailError) {
+    }
+    if (validatePhoneNumber(phoneNumber) && !emailError) {
       const recordSaveResponse = saveRecord(
         JSON.stringify({
           name,
@@ -69,7 +68,7 @@ export default function RegistryForm () {
         })
       );
       recordSaveResponse.then((response) => {
-        if(response.status === 200) {
+        if (response.status === 200) {
           handleSnackbarOpen("Success!");
         } else {
           handleSnackbarOpen("Oops, something went wrong. " + response.status);
@@ -94,14 +93,14 @@ export default function RegistryForm () {
     setOpenSnackbar(false);
   }
 
-  function handleNameChange (newValue) {
+  function handleNameChange(newValue) {
     setName(newValue);
   }
 
-  function handleEmailChange (newValue) {
+  function handleEmailChange(newValue) {
     setEmail(newValue);
     let re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-    if ( re.test(newValue) || newValue === '') {
+    if (re.test(newValue) || newValue === '') {
       setEmailError(false);
     }
     else {
@@ -109,92 +108,110 @@ export default function RegistryForm () {
     }
   }
 
-  function handleAddressChange (newValue) {
+  function handleAddressChange(newValue) {
     setAddress(newValue);
   }
 
-  function handleZipChange (newValue) {
+  function handleZipChange(newValue) {
     setZip(newValue);
   }
 
-  return(
-    <div className='form-list'>
-      <TextField  
-        name='name'
-        variant='outlined'
-        placeholder='Name'
-        className='name-input-field form-item'
-        value={name} 
-        onChange={(event) => {
-            handleNameChange(event.target.value);
-        }}/>
-      <TextField  
-        name='enail'
-        variant='outlined'
-        type='email'
-        placeholder='Email'
-        className='email-input-field form-item'
-        value={email} 
-        error={emailError}
-        onChange={(event) => {
-          handleEmailChange(event.target.value);
-        }}/>
-      <TextField  
-        name='address'
-        variant='outlined'
-        placeholder='Address'
-        className='address-input-field form-item'
-        value={address} 
-        multiline
-        onChange={(event) => {
-            handleAddressChange(event.target.value);
-        }}/>
-      <TextField  
-        name='zip'
-        variant='outlined'
-        placeholder='Zip Code'
-        className='zip-input-field form-item'
-        value={zip} 
-        onChange={(event) => {
-            handleZipChange(event.target.value);
-        }}/>
-      <MuiTelInput 
-        name='phone'
-        value={phoneNumber} 
-        onChange={handlePhoneNumberChange}
-        placeholder='Phone Number'
-        className='form-item'
-        forceCallingCode='true'
-        defaultCountry='US'
-      />
-      <div className='form-category'>
-        upcoming registration deadlines
+  function addressQuestions() {
+    return (
+      <>
         <div className='form-item'>
-          <Choice medium='email' value={registrationEmail} setValue={setRegistrationEmail} />
+          <Choice medium='mail' value={electionMail} setValue={setElectionMail} />
         </div>
         <div className='form-item'>
           <Choice medium='mail' value={registrationMail} setValue={setRegistrationMail} />
         </div>
-        <div className='form-item'>
-          <Choice medium='text' value={registrationTexts} setValue={setRegistrationTexts} />
-        </div>
+      </>);
+  }
+
+  function emailQuestions() {
+    return (
+      <div className='form-item'>
+        <Choice medium='email' value={registrationEmail} setValue={setRegistrationEmail} />
+      </div>);
+  }
+
+  function phoneQuestions() {
+    return (
+      <>
         <div className='form-item'>
           <Choice medium='phone call' value={registrationCalls} setValue={setRegistrationCalls} />
-        </div>
-      </div>
-      <div className='form-category'>
-        upcoming elections
-        <div className='form-item'>
-          <Choice medium='email' value={electionEmail} setValue={setElectionEmail} />
-        </div>
-        <div className='form-item'>
-          <Choice medium='mail' value={electionMail} setValue={setElectionMail} />
         </div>
         <div className='form-item'>
           <Choice medium='text' value={electionTexts} setValue={setElectionTexts} />
         </div>
         <div className='form-item'>
-          <Choice medium='phone call' value={electionCalls} setValue={setElectionCalls} />
+          <Choice medium='text' value={registrationTexts} setValue={setRegistrationTexts} />
+        </div>
+      </>);
+  }
+
+  return (
+    <div className='form-layout'>
+      <div>
+        Provide the information you wish, and controls will appear.
+      </div>
+      <div className='form-list'>
+        <div className='category-card'>
+          <TextField
+            name='name'
+            variant='outlined'
+            placeholder='Name'
+            className='name-input-field form-item'
+            value={name}
+            onChange={(event) => {
+              handleNameChange(event.target.value);
+            }} />
+          <TextField
+            name='address'
+            variant='outlined'
+            placeholder='Address'
+            className='address-input-field form-item'
+            value={address}
+            multiline
+            onChange={(event) => {
+              handleAddressChange(event.target.value);
+            }} />
+          <TextField
+            name='zip'
+            variant='outlined'
+            placeholder='Zip Code'
+            className='zip-input-field form-item'
+            value={zip}
+            onChange={(event) => {
+              handleZipChange(event.target.value);
+            }} />
+          {name && address && zip && addressQuestions()}
+        </div>
+        <div className='category-card'>
+          <TextField
+            name='email'
+            variant='outlined'
+            type='email'
+            placeholder='Email'
+            className='email-input-field form-item'
+            value={email}
+            error={emailError}
+            onChange={(event) => {
+              handleEmailChange(event.target.value);
+            }} />
+          {email && emailQuestions()}
+        </div>
+        <div className='category-card'>
+          <MuiTelInput
+            name='phone'
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            placeholder='Phone Number'
+            className='form-item'
+            forceCallingCode='true'
+            defaultCountry='US'
+          />
+          {phoneNumber && phoneQuestions()}
         </div>
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
@@ -207,3 +224,13 @@ export default function RegistryForm () {
     </div>
   )
 }
+
+/*
+
+        <div className='category-name'>
+          upcoming registration deadlines
+        </div>
+        <div className='category-name'>
+          upcoming elections
+        </div>
+*/

@@ -1,14 +1,29 @@
-.form-list {
+.form-layout {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
-    max-width: 512px;
 }
 
-.form-category {
+.form-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.category-card {
+    margin: 6px;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.category-name {
     margin-top: 12px;
     text-transform: uppercase;
 }
+
 
 .form-item {
     margin-bottom: 12px;

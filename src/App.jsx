@@ -9,20 +9,20 @@ import {
 
 function App() {
   return (
-    <div className="form-layout">
+    <div className="page-layout">
       <Router>
         <Routes>
           <Route
             path="/"
-            element={<RegistryForm/>}
+            element={<RegistryForm />}
           />
           <Route
             path="/:id"
-            element={<RegistryForm/>}
+            element={<RegistryForm />}
           />
           <Route
             path="/client"
-            element={<Client/>}
+            element={<Client />}
           />
         </Routes>
       </Router>
