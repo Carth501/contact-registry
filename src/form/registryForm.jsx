@@ -14,14 +14,10 @@ export default function RegistryForm() {
   const [emailError, setEmailError] = useState();
   const [address, setAddress] = useState('');
   const [zip, setZip] = useState('');
-  const [registrationTexts, setRegistrationTexts] = useState();
-  const [registrationCalls, setRegistrationCalls] = useState();
-  const [registrationEmail, setRegistrationEmail] = useState();
-  const [registrationMail, setRegistrationMail] = useState();
-  const [electionTexts, setElectionTexts] = useState();
-  const [electionCalls, setElectionCalls] = useState();
-  const [electionEmail, setElectionEmail] = useState();
-  const [electionMail, setElectionMail] = useState();
+  const [solicitationTexts, setSolicitationTexts] = useState();
+  const [solicitationCalls, setSolicitationCalls] = useState();
+  const [solicitationEmail, setSolicitationEmail] = useState();
+  const [solicitationMail, setSolicitationMail] = useState();
   const [messageState, setMessageState] = useState();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { id } = useParams();
@@ -57,14 +53,10 @@ export default function RegistryForm() {
           address,
           zip,
           phoneNumber,
-          registrationEmail,
-          registrationMail,
-          registrationTexts,
-          registrationCalls,
-          electionEmail,
-          electionMail,
-          electionTexts,
-          electionCalls
+          solicitationEmail,
+          solicitationMail,
+          solicitationTexts,
+          solicitationCalls,
         })
       );
       recordSaveResponse.then((response) => {
@@ -120,10 +112,7 @@ export default function RegistryForm() {
     return (
       <>
         <div className='form-item'>
-          <Choice medium='mail' value={electionMail} setValue={setElectionMail} />
-        </div>
-        <div className='form-item'>
-          <Choice medium='mail' value={registrationMail} setValue={setRegistrationMail} />
+          <Choice medium='mail' value={solicitationMail} setValue={setSolicitationMail} />
         </div>
       </>);
   }
@@ -131,7 +120,7 @@ export default function RegistryForm() {
   function emailQuestions() {
     return (
       <div className='form-item'>
-        <Choice medium='email' value={registrationEmail} setValue={setRegistrationEmail} />
+        <Choice medium='email' value={solicitationEmail} setValue={setSolicitationEmail} />
       </div>);
   }
 
@@ -139,13 +128,13 @@ export default function RegistryForm() {
     return (
       <>
         <div className='form-item'>
-          <Choice medium='phone call' value={registrationCalls} setValue={setRegistrationCalls} />
+          <Choice medium='phone call' value={solicitationCalls} setValue={setSolicitationCalls} />
         </div>
         <div className='form-item'>
-          <Choice medium='text' value={electionTexts} setValue={setElectionTexts} />
+          <Choice medium='text' value={solicitationTexts} setValue={setSolicitationTexts} />
         </div>
         <div className='form-item'>
-          <Choice medium='text' value={registrationTexts} setValue={setRegistrationTexts} />
+          <Choice medium='text' value={solicitationTexts} setValue={setSolicitationTexts} />
         </div>
       </>);
   }
@@ -157,34 +146,36 @@ export default function RegistryForm() {
       </div>
       <div className='form-list'>
         <div className='category-card'>
-          <TextField
-            name='name'
-            variant='outlined'
-            placeholder='Name'
-            className='name-input-field form-item'
-            value={name}
-            onChange={(event) => {
-              handleNameChange(event.target.value);
-            }} />
-          <TextField
-            name='address'
-            variant='outlined'
-            placeholder='Address'
-            className='address-input-field form-item'
-            value={address}
-            multiline
-            onChange={(event) => {
-              handleAddressChange(event.target.value);
-            }} />
-          <TextField
-            name='zip'
-            variant='outlined'
-            placeholder='Zip Code'
-            className='zip-input-field form-item'
-            value={zip}
-            onChange={(event) => {
-              handleZipChange(event.target.value);
-            }} />
+          <div className='category-fields'>
+            <TextField
+              name='name'
+              variant='outlined'
+              placeholder='Name'
+              className='name-input-field form-item'
+              value={name}
+              onChange={(event) => {
+                handleNameChange(event.target.value);
+              }} />
+            <TextField
+              name='address'
+              variant='outlined'
+              placeholder='Address'
+              className='address-input-field form-item'
+              value={address}
+              multiline
+              onChange={(event) => {
+                handleAddressChange(event.target.value);
+              }} />
+            <TextField
+              name='zip'
+              variant='outlined'
+              placeholder='Zip Code'
+              className='zip-input-field form-item'
+              value={zip}
+              onChange={(event) => {
+                handleZipChange(event.target.value);
+              }} />
+          </div>
           {name && address && zip && addressQuestions()}
         </div>
         <div className='category-card'>
