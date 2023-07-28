@@ -1,0 +1,45 @@
+.form-layout {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.category-card {
+    margin: 6px;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.category-fields {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.form-item {
+    margin-bottom: 12px;
+    width: 349px;
+    color: #0a427b;
+}
+
+.choice-button {
+    width: 175px;
+}
+
+.header {
+    width: 350px;
+}
+
+.header-items {
+    text-align: center;
+    word-wrap: break-word;
+}

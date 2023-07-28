@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+
+.page-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: #e1e7fb;
+  /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom, #d8e8f6, #ffffff);
+  color: #1976d2;
+}
+
+.contact-info {
+  margin-top: 10px;
+  color: #1976d2;
+}
+
+.disclosure {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
