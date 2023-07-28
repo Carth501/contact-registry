@@ -14,10 +14,19 @@ export default function RegistryForm() {
   const [emailError, setEmailError] = useState();
   const [address, setAddress] = useState('');
   const [zip, setZip] = useState('');
-  const [solicitationTexts, setSolicitationTexts] = useState();
-  const [solicitationCalls, setSolicitationCalls] = useState();
-  const [solicitationEmail, setSolicitationEmail] = useState();
-  const [solicitationMail, setSolicitationMail] = useState();
+  const [textUpcomingElection, setTextUpcomingElection] = useState();
+  const [textCampaign, setTextCampaign] = useState();
+  const [textVRDeadline, setTextVRDeadline] = useState();
+  const [textElectionResults, setTextElectionResults] = useState();
+  const [textLegislativeActivity, setTextLegislativeActivity] = useState();
+  const [voiceCampaign, setVoiceCampaign] = useState();
+  const [voiceRoboCalls, setVoiceRoboCalls] = useState();
+  const [mailUpcomingElection, setMailUpcomingElection] = useState();
+  const [mailCampaign, setMailCampaign] = useState();
+  const [mailVRDeadline, setMailVRDeadline] = useState();
+  const [emailUpcomingElection, setEmailUpcomingElection] = useState();
+  const [emailCampaign, setEmailCampaign] = useState();
+  const [emailVRDeadline, setEmailVRDeadline] = useState();
   const [messageState, setMessageState] = useState();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { id } = useParams();
@@ -53,10 +62,19 @@ export default function RegistryForm() {
           address,
           zip,
           phoneNumber,
-          solicitationEmail,
-          solicitationMail,
-          solicitationTexts,
-          solicitationCalls,
+          textUpcomingElection,
+          textCampaign,
+          textVRDeadline,
+          textElectionResults,
+          textLegislativeActivity,
+          voiceCampaign,
+          voiceRoboCalls,
+          mailUpcomingElection,
+          mailCampaign,
+          mailVRDeadline,
+          emailUpcomingElection,
+          emailCampaign,
+          emailVRDeadline,
         })
       );
       recordSaveResponse.then((response) => {
@@ -111,31 +129,33 @@ export default function RegistryForm() {
   function addressQuestions() {
     return (
       <>
-        <div className='form-item'>
-          <Choice medium='mail' value={solicitationMail} setValue={setSolicitationMail} />
-        </div>
+        <Choice label='Upcoming election alerts' value={mailUpcomingElection} setValue={setMailUpcomingElection} />
+        <Choice label='Campaign solicitation' value={mailCampaign} setValue={setMailCampaign} />
+        <Choice label='Voter registration reminders' value={mailVRDeadline} setValue={setMailVRDeadline} />
       </>);
   }
 
   function emailQuestions() {
     return (
-      <div className='form-item'>
-        <Choice medium='email' value={solicitationEmail} setValue={setSolicitationEmail} />
-      </div>);
+      <>
+        <Choice label='Upcoming election alerts' value={emailUpcomingElection} setValue={setEmailUpcomingElection} />
+        <Choice label='Campaign solicitation' value={emailCampaign} setValue={setEmailCampaign} />
+        <Choice label='Voter registration reminders' value={emailVRDeadline} setValue={setEmailVRDeadline} />
+      </>);
   }
 
   function phoneQuestions() {
     return (
       <>
-        <div className='form-item'>
-          <Choice medium='phone call' value={solicitationCalls} setValue={setSolicitationCalls} />
-        </div>
-        <div className='form-item'>
-          <Choice medium='text' value={solicitationTexts} setValue={setSolicitationTexts} />
-        </div>
-        <div className='form-item'>
-          <Choice medium='text' value={solicitationTexts} setValue={setSolicitationTexts} />
-        </div>
+        Texts
+        <Choice label='Upcoming election alerts' value={textUpcomingElection} setValue={setTextUpcomingElection} />
+        <Choice label='Campaign solicitation' value={textCampaign} setValue={setTextCampaign} />
+        <Choice label='Voter registration reminders' value={textVRDeadline} setValue={setTextVRDeadline} />
+        <Choice label='Election results' value={textElectionResults} setValue={setTextElectionResults} />
+        <Choice label='Legislative activty' value={textLegislativeActivity} setValue={setTextLegislativeActivity} />
+        Phone Calls
+        <Choice label='Campaign solicitation' value={voiceCampaign} setValue={setVoiceCampaign} />
+        <Choice label='Robocalls' value={voiceRoboCalls} setValue={setVoiceRoboCalls} />
       </>);
   }
 
@@ -144,7 +164,7 @@ export default function RegistryForm() {
       <div className='header'>
         <h1 className='header-items'>Contact Registry</h1>
         <h4 className='header-items'>
-          Provide the information you wish, and controls will appear. Skip any fields or questions you don't want to answer.
+          Provide the information you wish, and controls will appear. Skip any fields you don't want to answer.
         </h4>
       </div>
       <div className='form-list'>
@@ -195,7 +215,7 @@ export default function RegistryForm() {
                 handleEmailChange(event.target.value);
               }} />
           </div>
-          {email && emailQuestions()}
+          {email && !emailError && emailQuestions()}
         </div>
         <div className='category-card'>
           <div className='category-fields'>
@@ -209,7 +229,7 @@ export default function RegistryForm() {
               defaultCountry='US'
             />
           </div>
-          {phoneNumber && phoneQuestions()}
+          {phoneNumber && validatePhoneNumber(phoneNumber) && phoneQuestions()}
         </div>
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
@@ -222,13 +242,3 @@ export default function RegistryForm() {
     </div>
   )
 }
-
-/*
-
-        <div className='category-name'>
-          upcoming registration deadlines
-        </div>
-        <div className='category-name'>
-          upcoming elections
-        </div>
-*/

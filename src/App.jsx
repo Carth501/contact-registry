@@ -27,6 +27,7 @@ function App() {
         </Routes>
       </Router>
       <div className='contact-info'>Contact me: carth501@gmail.com</div>
+      <div className='disclosure'>This is just a way to declare what services you want, and is not binding. However, it could be made binding through legislation.</div>
     </div>
   );
 }
