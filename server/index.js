@@ -11,7 +11,7 @@ console.log('Running in ' + environment + ' mode.');
 const app = express();
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAqUwc3HlF2x3anLdROIUG_emoC964SGzc",
+    apiKey: APIKEY,
     authDomain: "contact-registry-391017.firebaseapp.com",
     projectId: "contact-registry-391017",
     storageBucket: "contact-registry-391017.appspot.com",
@@ -35,14 +35,14 @@ app.post('/api/create_record', async function (req, res) {
             email: req.body.email,
             address: req.body.address,
             zip: req.body.zip,
-            phoneNumber: req.body.phoneNumber, 
+            phoneNumber: req.body.phoneNumber,
             registrationEmail: req.body.registrationEmail || null,
             registrationMail: req.body.registrationMail || null,
-            registrationTexts: req.body.registrationTexts || null, 
-            registrationCalls: req.body.registrationCalls || null, 
-            electionEmail: req.body.electionEmail || null, 
-            electionMail: req.body.electionMail || null, 
-            electionTexts: req.body.electionTexts || null, 
+            registrationTexts: req.body.registrationTexts || null,
+            registrationCalls: req.body.registrationCalls || null,
+            electionEmail: req.body.electionEmail || null,
+            electionMail: req.body.electionMail || null,
+            electionTexts: req.body.electionTexts || null,
             electionCalls: req.body.electionCalls || null
         });
         res.send(docRef.id);
@@ -63,7 +63,7 @@ app.get('/api/all_records', async function (req, res) {
 const PORT = process.env.PORT || 8080;
 console.log(PORT);
 app.listen(PORT, () => {
-  console.log(
-    `Hello from Cloud Run! The container started successfully and is listening for HTTP requests on ${PORT}`
-  );
+    console.log(
+        `Hello from Cloud Run! The container started successfully and is listening for HTTP requests on ${PORT}`
+    );
 });
