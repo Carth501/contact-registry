@@ -23,7 +23,7 @@ const fbapp = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, './build')));
 
 app.use(express.json());
 
