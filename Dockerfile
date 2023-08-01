@@ -18,7 +18,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 # Copy local code to the container image.
-COPY . ./
+COPY ./server ./
 # Copy client build to the container image.
 COPY ../client/build ./build
 
