@@ -20,7 +20,7 @@ RUN npm ci --omit=dev
 # Copy local code to the container image.
 COPY ./server ./
 # Copy client build to the container image.
-COPY ../client/build ./build
+COPY ./client/build ./build
 
 # Run the web service on container startup.
 CMD ["node", "index.js"]
