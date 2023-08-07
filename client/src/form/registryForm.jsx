@@ -127,35 +127,39 @@ export default function RegistryForm() {
   }
 
   function addressQuestions() {
+    const enabled = name && address && zip;
+
     return (
       <>
-        <Choice label='Upcoming election alerts' value={mailUpcomingElection} setValue={setMailUpcomingElection} />
-        <Choice label='Campaign solicitation' value={mailCampaign} setValue={setMailCampaign} />
-        <Choice label='Voter registration reminders' value={mailVRDeadline} setValue={setMailVRDeadline} />
+        <Choice label='Upcoming election alerts' value={mailUpcomingElection} setValue={setMailUpcomingElection} enabled={enabled} />
+        <Choice label='Campaign solicitation' value={mailCampaign} setValue={setMailCampaign} enabled={enabled} />
+        <Choice label='Voter registration reminders' value={mailVRDeadline} setValue={setMailVRDeadline} enabled={enabled} />
       </>);
   }
 
   function emailQuestions() {
+    const enabled = email && !emailError;
     return (
       <>
-        <Choice label='Upcoming election alerts' value={emailUpcomingElection} setValue={setEmailUpcomingElection} />
-        <Choice label='Campaign solicitation' value={emailCampaign} setValue={setEmailCampaign} />
-        <Choice label='Voter registration reminders' value={emailVRDeadline} setValue={setEmailVRDeadline} />
+        <Choice label='Upcoming election alerts' value={emailUpcomingElection} setValue={setEmailUpcomingElection} enabled={enabled} />
+        <Choice label='Campaign solicitation' value={emailCampaign} setValue={setEmailCampaign} enabled={enabled} />
+        <Choice label='Voter registration reminders' value={emailVRDeadline} setValue={setEmailVRDeadline} enabled={enabled} />
       </>);
   }
 
   function phoneQuestions() {
+    const enabled = phoneNumber && validatePhoneNumber(phoneNumber);
     return (
       <>
         Texts
-        <Choice label='Upcoming election alerts' value={textUpcomingElection} setValue={setTextUpcomingElection} />
-        <Choice label='Campaign solicitation' value={textCampaign} setValue={setTextCampaign} />
-        <Choice label='Voter registration reminders' value={textVRDeadline} setValue={setTextVRDeadline} />
-        <Choice label='Election results' value={textElectionResults} setValue={setTextElectionResults} />
-        <Choice label='Legislative activty' value={textLegislativeActivity} setValue={setTextLegislativeActivity} />
+        <Choice label='Upcoming election alerts' value={textUpcomingElection} setValue={setTextUpcomingElection} enabled={enabled} />
+        <Choice label='Campaign solicitation' value={textCampaign} setValue={setTextCampaign} enabled={enabled} />
+        <Choice label='Voter registration reminders' value={textVRDeadline} setValue={setTextVRDeadline} enabled={enabled} />
+        <Choice label='Election results' value={textElectionResults} setValue={setTextElectionResults} enabled={enabled} />
+        <Choice label='Legislative activty' value={textLegislativeActivity} setValue={setTextLegislativeActivity} enabled={enabled} />
         Phone Calls
-        <Choice label='Campaign solicitation' value={voiceCampaign} setValue={setVoiceCampaign} />
-        <Choice label='Robocalls' value={voiceRoboCalls} setValue={setVoiceRoboCalls} />
+        <Choice label='Campaign solicitation' value={voiceCampaign} setValue={setVoiceCampaign} enabled={enabled} />
+        <Choice label='Robocalls' value={voiceRoboCalls} setValue={setVoiceRoboCalls} enabled={enabled} />
       </>);
   }
 
@@ -163,9 +167,6 @@ export default function RegistryForm() {
     <div className='form-layout'>
       <div className='header'>
         <h1 className='header-items'>Contact Registry</h1>
-        <h4 className='header-items'>
-          Provide the information you wish, and controls will appear. Skip any fields you don't want to answer.
-        </h4>
       </div>
       <div className='form-list'>
         <div className='category-card'>
@@ -199,7 +200,7 @@ export default function RegistryForm() {
                 handleZipChange(event.target.value);
               }} />
           </div>
-          {name && address && zip && addressQuestions()}
+          {addressQuestions()}
         </div>
         <div className='category-card'>
           <div className='category-fields'>
@@ -215,7 +216,7 @@ export default function RegistryForm() {
                 handleEmailChange(event.target.value);
               }} />
           </div>
-          {email && !emailError && emailQuestions()}
+          {emailQuestions()}
         </div>
         <div className='category-card'>
           <div className='category-fields'>
@@ -229,7 +230,7 @@ export default function RegistryForm() {
               defaultCountry='US'
             />
           </div>
-          {phoneNumber && validatePhoneNumber(phoneNumber) && phoneQuestions()}
+          {phoneQuestions()}
         </div>
       </div>
       <Button variant="contained" size="large" onClick={handleSubmission}>submit</Button>
